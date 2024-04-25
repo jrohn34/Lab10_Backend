@@ -7,4 +7,4 @@ services:
     environment:
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: spring-2024
+      POSTGRES_DB: ducks

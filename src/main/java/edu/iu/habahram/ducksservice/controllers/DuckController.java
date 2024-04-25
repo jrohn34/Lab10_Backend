@@ -1,8 +1,7 @@
 package edu.iu.habahram.ducksservice.controllers;
 
 import edu.iu.habahram.ducksservice.model.DuckData;
-import edu.iu.habahram.ducksservice.model.Duck;
-import edu.iu.habahram.ducksservice.repository.DucksRepository;
+import edu.iu.habahram.ducksservice.repository.DucksFileRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +16,9 @@ import java.util.List;
 @RequestMapping("/ducks")
 public class DuckController {
 
-    private DucksRepository ducksRepository;
+    private DucksFileRepository ducksRepository;
 
-    public DuckController(DucksRepository ducksRepository) {
+    public DuckController(DucksFileRepository ducksRepository) {
         this.ducksRepository = ducksRepository;
     }
 

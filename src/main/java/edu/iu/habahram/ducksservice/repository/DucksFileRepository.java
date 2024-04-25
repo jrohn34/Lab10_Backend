@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DucksRepository {
-    public DucksRepository() {
+public class DucksFileRepository {
+    public DucksFileRepository() {
         File ducksImagesDirectory = new File("ducks/images");
         if(!ducksImagesDirectory.exists()) {
             ducksImagesDirectory.mkdirs();
@@ -30,29 +30,7 @@ public class DucksRepository {
 
     private String IMAGES_FOLDER_PATH = "ducks/images/";
     private String AUDIO_FOLDER_PATH = "ducks/audio/";
-    private static final String NEW_LINE = System.lineSeparator();
-    private static final String DATABASE_NAME = "ducks/db.txt";
-    private static void appendToFile(Path path, String content)
-            throws IOException {
-        Files.write(path,
-                content.getBytes(StandardCharsets.UTF_8),
-                StandardOpenOption.CREATE,
-                StandardOpenOption.APPEND);
-    }
-    public int add(DuckData duckData) throws IOException {
-        List<DuckData> ducks = findAll();
-        int maxId = 0;
-        for (int i = 0; i < ducks.size(); i++) {
-            if (ducks.get(i).id() > maxId) {
-                maxId = ducks.get(i).id();
-            }
-        }
-        int id = maxId + 1;
-        Path path = Paths.get(DATABASE_NAME);
-        String data = duckData.toLine(id);
-        appendToFile(path, data + NEW_LINE);
-        return id;
-    }
+
 
     public boolean updateImage(int id, MultipartFile file) throws IOException {
         System.out.println(file.getOriginalFilename());
@@ -94,39 +72,5 @@ public class DucksRepository {
         byte[] file = Files.readAllBytes(path);
         return file;
     }
-
-    public List<DuckData> findAll() throws IOException {
-        List<DuckData> result = new ArrayList<>();
-        Path path = Paths.get(DATABASE_NAME);
-        List<String> data = Files.readAllLines(path);
-        for (String line : data) {
-            if(!line.trim().isEmpty()) {
-                DuckData d = DuckData.fromLine(line);
-                result.add(d);
-            }
-        }
-
-        return result;
-    }
-
-    public DuckData find(int id) throws IOException {
-        List<DuckData> ducks = findAll();
-        for(DuckData duck : ducks) {
-            if (duck.id() == id) {
-                return duck;
-            }
-        }
-        return null;
-    }
-    public List<DuckData> search(String type) throws IOException {
-        List<DuckData> ducks = findAll();
-        List<DuckData> result = new ArrayList<>();
-        for(DuckData duck : ducks) {
-            if (type != null && !duck.type().equalsIgnoreCase(type)) {
-                continue;
-            }
-            result.add(duck);
-        }
-        return result;
-    }
 }
+
